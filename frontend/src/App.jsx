@@ -7,7 +7,7 @@ function App() {
   const [count, setCount] = useState(0);
 
   (async () => {
-    const response = await fetch("http://localhost:3000/api/v1/products");
+    const response = await fetch("http://localhost:3001/api/v1/products");
     const data = await response.json();
     console.log(data);
   })();

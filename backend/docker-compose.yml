@@ -26,5 +26,5 @@ services:
     volumes:
       - .:/app
     ports:
-      - "3000:3000"
+      - "3001:3001"
     command: bash -c "npm install && npm start"
