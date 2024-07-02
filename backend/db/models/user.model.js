@@ -13,7 +13,7 @@ const UserSchema = {
   role: {
     allowNull: false,
     type: DataTypes.STRING,
-    defaultValue: 'user',
+    defaultValue: 'customer',
   },
   createdAt: {
     allowNull: false,
