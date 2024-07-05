@@ -1,17 +1,12 @@
 const { faker } = require('@faker-js/faker');
 const boom = require('@hapi/boom');
-
-const pool = require('../libs/postgres.pool');
-const sequelize = require('../libs/sequelize');
+const { models } = require('../libs/sequelize');
 
 class ProductsService {
   constructor() {
     this.products = [];
     this.generate();
-    this.pool = pool;
-    this.pool.on('error', (err) => console.error(err));
   }
-
   generate() {
     const limit = 100;
     for (let index = 0; index < limit; index++) {
@@ -24,29 +19,29 @@ class ProductsService {
       });
     }
   }
-
   async create(data) {
-    const newProduct = {
-      id: faker.datatype.uuid(),
-      ...data,
-    };
-    this.products.push(newProduct);
-    return newProduct;
+    try {
+      const newProduct = await models.Product.create(data);
+      return newProduct;
+    } catch (error) {
+      throw boom.badRequest(error.message);
+    }
   }
 
   async find() {
-    const query = 'SELECT * FROM tasks';
-    const [data] = await sequelize.query(query);
-    return data;
+    const products = await models.Product.findAll({ include: ['category'] });
+    return products;
   }
 
   async findOne(id) {
-    const product = this.products.find((item) => item.id === id);
+    const product = await models.Product.findByPk(id, {
+      include: ['category'],
+    });
     if (!product) {
-      throw boom.notFound('product not found');
+      throw boom.notFound('Product not found');
     }
     if (product.isBlock) {
-      throw boom.conflict('product is block');
+      throw boom.conflict('Product is blocked');
     }
     return product;
   }
@@ -57,10 +52,7 @@ class ProductsService {
       throw boom.notFound('product not found');
     }
     const product = this.products[index];
-    this.products[index] = {
-      ...product,
-      ...changes,
-    };
+    this.products[index] = { ...product, ...changes };
     return this.products[index];
   }
 
@@ -73,5 +65,4 @@ class ProductsService {
     return { id };
   }
 }
-
 module.exports = ProductsService;
