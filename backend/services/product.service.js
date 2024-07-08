@@ -20,16 +20,12 @@ class ProductsService {
     }
   }
   async create(data) {
-    try {
-      const newProduct = await models.Product.create(data);
-      return newProduct;
-    } catch (error) {
-      throw boom.badRequest(error.message);
-    }
+    const newProduct = await models.Product.create(data);
+    return newProduct;
   }
 
   async find() {
-    const products = await models.Product.findAll({ include: ['category'] });
+    const products = await models.Product.findAll();
     return products;
   }
 
