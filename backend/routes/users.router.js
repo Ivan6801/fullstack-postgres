@@ -1,11 +1,12 @@
 const express = require('express');
-
+const jwt = require('jsonwebtoken');
 const UserService = require('../services/user.service');
 const validatorHandler = require('../middlewares/validator.handler');
 const {
   updateUserSchema,
   createUserSchema,
   getUserSchema,
+  loginSchema,
 } = require('../schemas/user.schema');
 
 const router = express.Router();
@@ -44,6 +45,37 @@ router.post(
       res.status(201).json(newUser);
     } catch (error) {
       next(error);
+    }
+  }
+);
+
+router.post(
+  '/login',
+  validatorHandler(loginSchema, 'body'),
+  async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+      const user = await service.findByCredentials(email, password);
+
+      if (user) {
+        const token = jwt.sign(
+          { id: user.id, email: user.email },
+          'secret-key',
+          { expiresIn: '1h' }
+        );
+        res.json({ token });
+      } else {
+        res.status(401).json({ message: 'Invalid email or password' });
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      res
+        .status(500)
+        .json({
+          message: 'An error occurred during login',
+          error: error.message,
+        });
     }
   }
 );

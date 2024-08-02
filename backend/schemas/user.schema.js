@@ -16,8 +16,18 @@ const updateUserSchema = Joi.object({
   role: role,
 });
 
+const loginSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().min(6).required(),
+});
+
 const getUserSchema = Joi.object({
   id: id.required(),
 });
 
-module.exports = { createUserSchema, updateUserSchema, getUserSchema };
+module.exports = {
+  createUserSchema,
+  updateUserSchema,
+  getUserSchema,
+  loginSchema,
+};

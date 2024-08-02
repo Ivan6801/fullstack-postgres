@@ -28,5 +28,14 @@ class UserService {
     await user.destroy();
     return { id };
   }
+  async findByCredentials(email, password) {
+    const user = await models.User.findOne({
+      where: { email, password },
+    });
+    if (!user) {
+      throw boom.unauthorized('Invalid email or password');
+    }
+    return user;
+  }
 }
 module.exports = UserService;

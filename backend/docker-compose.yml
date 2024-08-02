@@ -22,28 +22,6 @@ services:
     depends_on:
       - postgres
 
-  mysql:
-    image: mysql:5
-    environment:
-      - MYSQL_DATABASE=my_store
-      - MYSQL_USER=root
-      - MYSQL_ROOT_PASSWORD=admin123
-      - MYSQL_PORT=3307
-    ports:
-      - 3307:3306
-    volumes:
-      - ./mysql_data:/var/lib/mysql
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      - MYSQL_ROOT_PASSWORD=admin123
-      - PMA_HOST=mysql
-    ports:
-      - 8080:80
-    depends_on:
-      - mysql
-
   web:
     image: node:14
     working_dir: /app
