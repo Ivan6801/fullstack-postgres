@@ -18,7 +18,6 @@ export function Signup() {
     if (email && password) {
       const response = await signup(email, password);
       if (response?.username || response?.password) {
-        console.log(response);
         setError("");
         navigate("/");
       }

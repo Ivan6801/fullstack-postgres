@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(
     localStorage.getItem("token") || sessionStorage.getItem("token")
   );
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,6 +18,7 @@ export const AuthProvider = ({ children }) => {
     } else {
       localStorage.removeItem("token");
       sessionStorage.removeItem("token");
+      setUser(null);
     }
   }, [token]);
 
@@ -33,8 +35,9 @@ export const AuthProvider = ({ children }) => {
           localStorage.removeItem("token");
         }
         setToken(response.data.token);
+        setUser({ email });
         toast.success("Login successful!");
-        navigate("/dashboard");
+        navigate("/admin/dashboard");
       } else {
         throw new Error("Login failed: No token returned");
       }
@@ -46,13 +49,14 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setToken(null);
+    setUser(null);
     localStorage.removeItem("token");
     sessionStorage.removeItem("token");
     navigate("/login");
   };
 
   return (
-    <AuthContext.Provider value={{ token, login, logout }}>
+    <AuthContext.Provider value={{ token, user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

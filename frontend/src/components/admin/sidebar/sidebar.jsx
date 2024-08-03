@@ -19,7 +19,7 @@ import {
 const Side = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const [selectedItem, setSelectedItem] = useState(location.pathname);
 
   useEffect(() => {
@@ -120,6 +120,12 @@ const Side = () => {
               onClick={() => navigate.push("/admin/dashboard")}
             />
           </div>
+
+          {user && (
+            <div className="flex items-center justify-center my-10">
+              <span className="text-white">Bienvenido: {user.email}</span>
+            </div>
+          )}
 
           {menuItems?.map((item, index) => (
             <article key={index}>

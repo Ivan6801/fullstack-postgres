@@ -11,6 +11,7 @@ import { Dashboard } from "./components/dashboard";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { Layout } from "./Layout";
+import { AddCategory } from "./components/admin/AddCategory";
 
 function App() {
   return (
@@ -20,9 +21,12 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Navigate to="/dashboard" />} />
+          <Route path="/admin" element={<Layout />}>
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="category">
+              <Route path="add-category" element={<AddCategory />} />
+            </Route>
+            <Route index element={<Navigate to="dashboard" />} />
           </Route>
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>

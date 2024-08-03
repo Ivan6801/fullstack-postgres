@@ -1,11 +1,15 @@
 import React from "react";
 import { Sidebar } from "../components/admin/sidebar";
+import { Outlet } from "react-router";
+import { ClientStoreLayout } from "./client-store-layout";
 
 const Layout = ({ children }) => {
   return (
     <div className="flex h-screen">
       <Sidebar />
-      <main className="flex-1 p-6 overflow-y-auto">{children}</main>
+      <ClientStoreLayout>
+        <Outlet />
+      </ClientStoreLayout>
     </div>
   );
 };
