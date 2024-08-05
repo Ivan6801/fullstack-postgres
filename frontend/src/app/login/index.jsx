@@ -8,7 +8,7 @@ export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const { login } = useContext(AuthContext);
+  const { login, handleGoogleSignIn } = useContext(AuthContext);
 
   const handleLogin = async () => {
     try {
@@ -103,6 +103,13 @@ export function Login() {
                 onClick={handleLogin}
               >
                 Sign in
+              </button>
+              <button
+                type="button"
+                className="w-full text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mt-3"
+                onClick={handleGoogleSignIn}
+              >
+                Sign in with Google
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don&apos;t have an account?{" "}

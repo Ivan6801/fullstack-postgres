@@ -69,13 +69,10 @@ router.post(
         res.status(401).json({ message: 'Invalid email or password' });
       }
     } catch (error) {
-      console.error('Login error:', error);
-      res
-        .status(500)
-        .json({
-          message: 'An error occurred during login',
-          error: error.message,
-        });
+      res.status(500).json({
+        message: 'An error occurred during login',
+        error: error.message,
+      });
     }
   }
 );

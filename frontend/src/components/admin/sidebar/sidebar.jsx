@@ -122,8 +122,15 @@ const Side = () => {
           </div>
 
           {user && (
-            <div className="flex items-center justify-center my-10">
-              <span className="text-white">Bienvenido: {user.email}</span>
+            <div className="flex flex-col items-center justify-center my-10 space-x-4">
+              {user.photoURL && (
+                <img
+                  src={user.photoURL}
+                  alt="User Avatar"
+                  className="w-20 h-20 rounded-full border-2 border-white mb-5"
+                />
+              )}
+              <span className="text-white">Bienvenido: {user.displayName}</span>
             </div>
           )}
 

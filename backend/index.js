@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const routerApi = require('./routes');
 
@@ -9,6 +10,7 @@ const {
 } = require('./middlewares/error.handler');
 
 const app = express();
+app.use(bodyParser.json());
 const port = process.env.PORT || 3001;
 
 app.use(express.json());

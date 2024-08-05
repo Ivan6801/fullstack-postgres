@@ -34,7 +34,7 @@ services:
       DB_NAME: wms
       DB_PORT: 5432
     ports:
-      - "3001:3001"
+      - "3002:3001"
     depends_on:
       - postgres
     command: bash -c "npm install && npm run migrations:run && npm start"

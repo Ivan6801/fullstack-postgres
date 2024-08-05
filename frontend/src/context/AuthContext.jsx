@@ -2,6 +2,8 @@ import React, { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../services/api";
 import { toast } from "react-toastify";
+import { auth, googleProvider } from "../services/firebaseConfig";
+import { signInWithPopup } from "firebase/auth";
 
 export const AuthContext = createContext();
 
@@ -47,6 +49,28 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      setToken(user.accessToken);
+
+      setUser({
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+      });
+
+      toast.success("Google sign-in successful!");
+      navigate("/admin/dashboard");
+    } catch (error) {
+      toast.error(
+        "Error with Google sign-in: " + (error.message || "An error occurred")
+      );
+    }
+  };
+
   const logout = () => {
     setToken(null);
     setUser(null);
@@ -56,7 +80,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout }}>
+    <AuthContext.Provider
+      value={{ token, user, login, handleGoogleSignIn, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );
