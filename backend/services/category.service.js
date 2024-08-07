@@ -1,3 +1,4 @@
+const boom = require('@hapi/boom');
 const { models } = require('./../libs/sequelize');
 
 class CategoryService {
@@ -16,7 +17,7 @@ class CategoryService {
     });
     return category;
   }
-  
+
   async update(id, changes) {
     const category = await this.findOne(id);
     try {

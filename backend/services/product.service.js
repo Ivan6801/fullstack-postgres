@@ -25,19 +25,19 @@ class ProductsService {
   }
 
   async find() {
-    const products = await models.Product.findAll();
+    const products = await models.Product.findAll({
+      include: ['category']
+    });
     return products;
   }
 
   async findOne(id) {
-    const product = await models.Product.findByPk(id, {
-      include: ['category'],
-    });
+    const product = this.products.find(item => item.id === id);
     if (!product) {
-      throw boom.notFound('Product not found');
+      throw boom.notFound('product not found');
     }
     if (product.isBlock) {
-      throw boom.conflict('Product is blocked');
+      throw boom.conflict('product is block');
     }
     return product;
   }
